@@ -23,9 +23,9 @@ object extractFile {
     val sourceDf = spark.read.format("csv").option("header", "true").load("C:\\Users\\test\\parking_violations.csv")
     val df1 = sourceDf.select("Plate ID", "Violation description", "House Number","Street Name").toDF()
 
-    val randomRow = df1.sample(false,0.1).toDF()
+    val randomRow = df1.sample(false,0.1).limit(1).toDF()
 
-    randomRow.show(1)
+    randomRow.show()
 
     val plate_id = randomRow.first().getString(0)
     val violation_description = randomRow.first().getString(1)
@@ -36,7 +36,7 @@ object extractFile {
       print("alert")
     }
     else{
-      print("Plate Id : "+ plate_id + " / Violation description : "+ violation_description + " / House number : "+ house_number + " / Street name : "+ street_name )
+      print("Plate Id : "+ plate_id + " / Violation_description : "+ violation_description + " / House number : "+ house_number + " / Street name : "+ street_name )
     }
 
     //df1.where(df1.col("Plate ID").isNull).show()
